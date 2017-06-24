@@ -19,17 +19,16 @@
 int main(int argc, char *argv[])
 {
     MPool<int> intpool;
-    intpool.init(1024);
+    intpool.init(1024, 100);
     int *a = intpool.attach();
-
-    if (!a)
-        exit(-1);
-
-    memset(a, 0, sizeof(*a));
+    if (!a) exit(-1);
+    memset(a, 0, 100);
+    intpool.detach(a);
 
     int *array[1400] = {0};
     for (int i = 0; i < 1400; i++) {
         array[i] = intpool.attach();
+        memset(array[i], 0, 100);
     }
     for (int i = 0; i < 1400; i++) {
         intpool.detach(array[i]);

@@ -62,6 +62,8 @@ inline int MPool<T>::init(uint32_t num, uint32_t size)
         freelist.push((T*)((char*)disk + i * size));
     }
     end = (char*)disk + total;
+    this->num  = num;
+    this->size = size;
     return 0;
 }
 

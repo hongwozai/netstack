@@ -5,3 +5,4 @@ macro(add_netstack_test NAME)
 endmacro()
 
 add_netstack_test(mpool)
+add_netstack_test(pktbuf)
