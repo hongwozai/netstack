@@ -16,7 +16,7 @@
     for (ListLink *(temp) = (node); (temp) != 0; (temp) = (temp)->next)
 
 #define List_safe_foreach(head, temp, pnode)                            \
-    for ((temp) = (head), (pnode) = (head)->next;                       \
+    for ((temp) = (head), ((head) ? ((pnode) = (head)->next) : (head)); \
          (temp) != NULL ;                                               \
          (temp) = (pnode), ((pnode) ? ((pnode) = (pnode)->next) : (pnode)))
 
