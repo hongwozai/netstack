@@ -45,14 +45,21 @@ private:
 template <class T>
 inline int MPool<T>::init(uint32_t num, uint32_t size)
 {
-    uint64_t total = num * size;
+    uint64_t total;
+
+    memset(this, 0, sizeof(*this));
+
+    if (size < sizeof(ListLink)) {
+        size = sizeof(ListLink);
+    }
+    total = num * size;
 
     disk = (T*)malloc(total);
     if (!disk) {
         return -1;
     }
     for (uint32_t i = 0; i < num; i++) {
-        freelist.push((char*)(disk) + i);
+        freelist.push((T*)((char*)disk + i * size));
     }
     end = (char*)disk + total;
     return 0;
@@ -68,7 +75,7 @@ template <class T>
 inline T *MPool<T>::attach()
 {
     if (freelist.count == 0) {
-        return malloc(size);
+        return (T*)malloc(size);
     }
     return freelist.pop();
 }
@@ -76,7 +83,7 @@ inline T *MPool<T>::attach()
 template <class T>
 inline void MPool<T>::detach(T *n)
 {
-    if (n > disk && n < end) {
+    if (n >= disk && n < end) {
         freelist.push(n);
     } else {
         free(n);
