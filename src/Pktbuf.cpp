@@ -37,11 +37,13 @@ Errno Pktbuf::header(int size)
         if (head->payload - size >= head->data) {
             // 可以安全的移动
             head->payload -= size;
+            total_len += size;
             return OK;
         } else {
             // 内存不够
             size -= head->payload - head->data;
             head->payload = head->data;
+            total_len += size;
             // 选择使用两种分配方式
             if ((unsigned)size <= hsize) {
                 h = hpool.attach();
@@ -70,9 +72,11 @@ Errno Pktbuf::header(int size)
             if ((unsigned)size < h->len) {
                 head->payload += size;
                 head->len     -= size;
+                total_len     -= size;
                 break;
             }
             size -= h->len;
+            total_len -= h->len;
             hlist.detach(&h->link);
             hpool.detach(h);
         }
@@ -125,10 +129,10 @@ Pktbuf *Pktbuf::alloc(AllocType type, uint32_t len, ReserveType layer)
     // 确定保留的字节数
     switch (layer) {
     case TCP:
-        reserve = sizeof(TcpHdr) + sizeof(IP) + sizeof(EtherHdr);
+        reserve = sizeof(TcpHdr) + sizeof(IPHdr) + sizeof(EtherHdr);
         break;
     case UDP:
-        reserve = sizeof(UdpHdr) + sizeof(IP) + sizeof(EtherHdr);
+        reserve = sizeof(UdpHdr) + sizeof(IPHdr) + sizeof(EtherHdr);
         break;
     case IP:
         reserve = sizeof(IPHdr) + sizeof(EtherHdr);

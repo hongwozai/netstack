@@ -119,6 +119,14 @@ int main(int argc, char *argv[])
     if (p->hlist.count != 2) exit(-1);
     Pktbuf::free(p);
 
+    // 10, 测试total_len
+    p = Pktbuf::alloc(Pktbuf::FIXEDPOOL, 3000, Pktbuf::TCP);
+    if (p->total_len != (3000 + 20 + 20 + 14)) exit(-1);
+    p->header(20);
+    if (p->total_len != 3000 + 20 + 14) exit(-1);
+    p->header(2000);
+    if (p->total_len != 1034) exit(-1);
+
     Pktbuf::destroy();
     return 0;
 }
