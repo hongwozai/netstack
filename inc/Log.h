@@ -12,16 +12,16 @@
 #ifndef LOG_H
 #define LOG_H
 
-#define log()                                                   \
+#define log(fmt, args...)                                       \
     fprintf(stdout, "[%s %d] "fmt, __FILE__, __LINE__, ##args);
 
-#define err()                                                   \
+#define err(fmt, args...)                                       \
     fprintf(stderr, "[%s %d] "fmt, __FILE__, __LINE__, ##args);
 
-#define syserr()                                                        \
+#define syserr(fmt, args...)                                            \
     fprintf(stderr, "[%s %d] "fmt"(%m)", __FILE__, __LINE__, ##args);
 
-#define fatal()                                                 \
+#define fatal(fmt, args...)                                     \
     fprintf(stderr, "[%s %d] "fmt, __FILE__, __LINE__, ##args);
 
 #endif /* LOG_H */
