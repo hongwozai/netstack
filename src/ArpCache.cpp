@@ -10,10 +10,14 @@
  ** 注  意：1.
  ********************************************************************/
 #include <ctime>
+#include <cstdio>
 #include <cstring>
 #include <cstdlib>
 #include <cstddef>
 #include "ArpCache.h"
+#include "Netutils.h"
+
+using namespace Net;
 
 Errno ArpCache::init(uint8_t mod, uint64_t timeout)
 {
@@ -111,4 +115,17 @@ void ArpCache::destroy()
 {
     free(buckets);
     npool.destroy();
+}
+
+void ArpCache::print()
+{
+    for (uint32_t i = 0; i < (mask + 1); i++) {
+        HList_foreach(buckets[i].head, temp) {
+            Node *n = (Node*)temp;
+            printf("%s at <%s> on %s\n",
+                   IP4Addr(n->ip),
+                   (n->type != INCOMPLETE) ? MACAddr(n->mac) : "incomplete",
+                   n->device ? n->device->name : "unknown");
+        }
+    }
 }

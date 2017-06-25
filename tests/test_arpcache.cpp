@@ -26,6 +26,7 @@ int main(int argc, char *argv[])
 
     // 2.
     cache.add(0, 0);
+    cache.print();
 
     ret = cache.del(0);
     if (ret != true) exit(-1);
