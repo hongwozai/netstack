@@ -6,3 +6,6 @@ endmacro()
 
 add_netstack_test(mpool)
 add_netstack_test(pktbuf)
+add_netstack_test(arpcache)
+add_netstack_test(pcapdriver)
+target_link_libraries(test_pcapdriver pcap)
