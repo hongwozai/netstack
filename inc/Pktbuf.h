@@ -27,8 +27,11 @@ public:
 
     // 内存分配类型
     enum AllocType {
+        // 动态分配不定长
         ALLOCATOR,
+        // 定长内存池分配
         FIXEDPOOL,
+        // 静态不分配内存
         STATIC,
     };
 
@@ -38,11 +41,13 @@ public:
         UDP,
         IP,
         ETHER,
+        // 不预留
         NONE,
     };
 
 public:
 
+#pragma pack(1)
     struct hunk {
         ListLink  link;
         // 分配类型，释放时使用
@@ -54,6 +59,7 @@ public:
         // 数据部分指针
         char      data[1];
     };
+#pragma pack()
 
 public:
 
@@ -61,12 +67,15 @@ public:
     Errno header(int size);
 
     // 将pktbuf连接到当前pktbuf的数据部分
-    Errno cat(Pktbuf *);
-
-    // 将pktbuf链接到当前pktbuf链表的下一个
-    Errno addNext(Pktbuf *);
+    void cat(Pktbuf *);
 
 public:
+
+    // 初始化两个内存池
+    static Errno init(int pnum, int hnum, uint32_t hsize);
+
+    // 销毁内存池
+    static void destroy();
 
     /**
      * alloc
@@ -78,7 +87,7 @@ public:
     // 释放控制部分与数据部分
     static void free(Pktbuf *);
 
-private:
+public:
 
     // 数据包链表
     ListLink link;
@@ -103,6 +112,9 @@ private:
 
     // 数据部分使用的内存池
     static MPool<hunk>   hpool;
+
+    // 数据部分使用的内存池节点大小（除去hunk）
+    static uint32_t      hsize;
 
 };
 
