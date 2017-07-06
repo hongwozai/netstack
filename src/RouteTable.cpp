@@ -69,8 +69,10 @@ RetType RouteTable::del(uint32_t network, uint32_t netmask)
             // 释放节点，并立即返回
             array[index].detach(temp);
             npool.detach(n);
+            return OK;
         }
     }
+    return OK;
 }
 
 RouteTable::Node* RouteTable::nextHop(uint32_t ip)
