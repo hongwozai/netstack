@@ -84,7 +84,7 @@ void ArpCache::update()
     ListLink *temp, *next;
     List_safe_foreach(timechain.head, temp, next) {
         Node *n = timechain.locate(timechain.head);
-        if (n->expires < (uint32_t)time(0)) {
+        if (n->expires < (uint64_t)time(0)) {
             timechain.detach(&n->timelink);
             buckets[0].del(&n->link);
             npool.detach(n);
