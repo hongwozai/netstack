@@ -23,7 +23,8 @@ class NetIf
 public:
 
     // 初始化函数
-    inline RetType init(char *name, uint32_t ip, uint16_t mtu, Driver *d);
+    inline RetType init(const char *name, uint32_t ip, uint16_t mtu,
+                        Driver *d);
 
     // 输出函数，pktbuf的数据部分应该为ip头部
     // @param pktbuf 输入
@@ -38,6 +39,12 @@ public:
 
     // 关闭网卡功能
     virtual void down() { isup = false; }
+
+    // 设置ip
+    inline RetType setIP(uint32_t ip) { this->ip = ip; return OK; }
+
+    // 设置掩码
+    inline RetType setMask(uint32_t mask) { this->netmask = mask; return OK; }
 
 public:
 
@@ -56,9 +63,10 @@ public:
     // mtu值
     uint16_t mtu;
 
-    // 网卡的ip地址
+    // 网卡的ip地址，掩码
     // TODO: 暂时仅支持IPv4
     uint32_t ip;
+    uint32_t netmask;
 
     // 网卡所使用的驱动
     Driver  *driver;

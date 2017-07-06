@@ -19,7 +19,6 @@ int main(int argc, char *argv[])
 {
     PcapDriver pd;
     RetType no;
-    int ret;
 
     Pktbuf::init(1024, 1024, 1514);
     // 1.
