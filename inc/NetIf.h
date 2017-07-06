@@ -51,7 +51,7 @@ public:
     ListLink link;
 
     // 网卡名称
-    char    *name;
+    const char    *name;
 
     // 是否开启
     bool     isup;
@@ -80,7 +80,7 @@ public:
     uint64_t tpkt;
 };
 
-inline RetType NetIf::init(char *name, uint32_t ip, uint16_t mtu, Driver *d)
+inline RetType NetIf::init(const char *name, uint32_t ip, uint16_t mtu, Driver *d)
 {
     this->name = name;
     this->ip   = ip;
