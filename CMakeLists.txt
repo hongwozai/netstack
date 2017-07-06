@@ -5,11 +5,12 @@ project(netstack)
 
 # 定义
 add_definitions(-g -Wall)
+# add_definitions(-DENDIAN)
 include_directories(utils inc)
 
 # 最终可执行文件
 add_executable(netstack src/Main.cpp)
-target_link_libraries(netstack stack utils)
+target_link_libraries(netstack stack utils pcap)
 
 # libnetstack.a静态库
 aux_source_directory(src SRCS)

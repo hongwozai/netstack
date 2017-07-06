@@ -12,10 +12,26 @@
 #ifndef ERROR_H
 #define ERROR_H
 
-enum Errno {
+enum RetType {
     OK = 0,
+
+    // 错误状态
     ARGS_ERROR,
     MEM_FAIL,
+    SEND_FAIL,
+    INTERNL_ERROR,
+
+    /**
+     * 正常处理时的信息与动作
+     */
+    MALFORMATION_PKT,
+    NOTME_PKT,
+    // 数据包正在使用中
+    USE_PKT,
+    NO_PKT,
+
+    // 不应当出现
+    OTHER,
 };
 
 #endif /* ERROR_H */

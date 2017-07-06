@@ -18,7 +18,7 @@
 int main(int argc, char *argv[])
 {
     PcapDriver pd;
-    Errno no;
+    RetType no;
     int ret;
 
     Pktbuf::init(1024, 1024, 1514);
@@ -29,18 +29,16 @@ int main(int argc, char *argv[])
     // 2.
     Pktbuf *p = Pktbuf::alloc(Pktbuf::FIXEDPOOL, 1500, Pktbuf::NONE);
     if (!p) exit(-1);
-    exit(0);
 
-    ret = pd.linkoutput(p);
-    printf("ret: %d\n", ret);
-    if (ret != -1) exit(-1);
+    // ret = pd.linkoutput(p);
+    // printf("ret: %d\n", ret);
+    // if (ret != -1) exit(-1);
     Pktbuf::free(p);
 
     // 3.
     int i = 0;
-    while (1) {
+    while (OK == pd.linkinput(&p)) {
         i++;
-        pd.linkinput(&p);
     }
     if (i != 13) exit(-1);
 

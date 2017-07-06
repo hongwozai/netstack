@@ -37,22 +37,22 @@ namespace Net {
     uint16_t ChecksumFold(void *data, int len, uint16_t chksum = 0);
 
     // 点分十进制转换为ipv4
-    uint32_t IP4Addr(char *str);
+    uint32_t IP4Addr(const char *str);
 
     // ipv4转换为点分十进制，ip为大端序，且buf至少大于16，用\0结尾
-    char*    IP4Addr(uint32_t ip, char *buf);
+    const char*    IP4Addr(uint32_t ip, const char *buf);
 
     // 同上，并非线程安全
-    char*    IP4Addr(uint32_t ip);
+    const char*    IP4Addr(uint32_t ip);
 
     // 字符串转mac
-    uint8_t* MACAddr(char *s, uint8_t *mac);
+    uint8_t* MACAddr(const char *s, uint8_t *mac);
 
     // mac转字符串，buf至少大于18，用\0结尾
-    char*    MACAddr(uint8_t *mac, char *buf);
+    const char*    MACAddr(uint8_t *mac, const char *buf);
 
     // 同上，并非线程安全
-    char*    MACAddr(uint8_t *mac);
+    const char*    MACAddr(uint8_t *mac);
 
     // 直接输出十六进制字符
     void     Hexdump(void *data, int len);

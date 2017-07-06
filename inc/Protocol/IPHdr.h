@@ -58,10 +58,10 @@ namespace Proto {
 
 #pragma pack(1)
     typedef struct IPHdr {
-#if __BYTE_ORDER == __LITTLE_ENDIAN
+#ifdef BIG_ENDIAN
         uint8_t ip_hl:4;		/* header length */
         uint8_t ip_v:4;		/* version */
-#else
+#else /* LITTLE_ENDIAN */
         uint8_t ip_v:4;		/* version */
         uint8_t ip_hl:4;		/* header length */
 #endif

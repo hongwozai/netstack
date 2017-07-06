@@ -54,6 +54,16 @@ namespace Proto {
     } ArpHdr;
 #pragma pack()
 
+#pragma pack(1)
+    typedef struct VlanHdr {
+        // tpid
+        uint16_t priority:3;
+        uint16_t cfi:1;
+        uint16_t vlanid:12;
+        // 这里将tpid与type不做区分处理（仅将vlan部分当成一个独立的协议，其实不是）
+        uint16_t type;
+    } VlanHdr;
+#pragma pack()
 }
 
 #endif /* ETHERHDR_H */

@@ -53,14 +53,14 @@ public:
     // 初始化
     // @param timeout 单位s, 默认100s
     // TODO: INCOMPLETE暂时与STABLE的超时时间一致，默认均为100s
-    Errno init(uint8_t mod = 4, uint64_t timeout = 100);
+    RetType init(uint8_t mod = 4, uint64_t timeout = 100);
 
     /**
      * add
      * 添加节点，后两个参数根据type而定
      * INCOMPLETE不用填写mac,STATIC与STABLE需要
      */
-    Errno add(uint32_t ip, NetIf *device,
+    Node* add(uint32_t ip, NetIf *device,
               NodeType type = INCOMPLETE, uint8_t mac[6] = 0);
 
 

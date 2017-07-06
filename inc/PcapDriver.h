@@ -19,15 +19,18 @@ class PcapDriver : public Driver
 {
 public:
 
-    // 驱动初始化
-    Errno init(bool isoffline, const char *name,
-               const char *filter = "inbound");
+    // 驱动接受初始化
+    RetType init(bool isoffline, const char *name,
+                 const char *filter = "inbound");
+
+    // 发送pcap的初始化
+    RetType init(const char *name);
 
     // 底层的输出
     int   linkoutput(Pktbuf *);
 
     // 底层的输入
-    Errno linkinput(Pktbuf **);
+    RetType linkinput(Pktbuf **);
 
     // 获取驱动信息
     const char *info() { return pcap_lib_version(); }
@@ -40,6 +43,8 @@ private:
     bool    isoffline;
 
     pcap_t *pcap;
+
+    pcap_t *pcap_send;
 
     bpf_program fp;
 

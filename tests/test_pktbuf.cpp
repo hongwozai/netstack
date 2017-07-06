@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
     Pktbuf *p, *pp[10240];
     Pktbuf::hunk *h;
 
-    Errno ret = Pktbuf::init(1024, 1024, 1514);
+    RetType ret = Pktbuf::init(1024, 1024, 1514);
     if (ret != OK) exit(-1);
 
     // 1.

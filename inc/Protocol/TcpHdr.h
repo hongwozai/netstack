@@ -22,7 +22,7 @@ namespace Proto {
         uint16_t dest;
         uint32_t seq;
         uint32_t ack_seq;
-# if __BYTE_ORDER == __LITTLE_ENDIAN
+#ifdef LITTLE_ENDIAN
         uint16_t res1:4;
         uint16_t doff:4;
         uint16_t fin:1;
@@ -32,7 +32,7 @@ namespace Proto {
         uint16_t ack:1;
         uint16_t urg:1;
         uint16_t res2:2;
-# elif __BYTE_ORDER == __BIG_ENDIAN
+#else /* BIG_ENDIAN */
         uint16_t doff:4;
         uint16_t res1:4;
         uint16_t res2:2;
@@ -42,9 +42,7 @@ namespace Proto {
         uint16_t rst:1;
         uint16_t syn:1;
         uint16_t fin:1;
-# else
-#  error "Adjust __BYTE_ORDER (__LITTLE_ENDIAN | __BIG_ENDIAN) defines"
-# endif
+#endif
         uint16_t window;
         uint16_t check;
         uint16_t urg_ptr;

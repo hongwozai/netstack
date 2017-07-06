@@ -115,7 +115,7 @@ uint16_t Net::ChecksumFold(void *data, int len, uint16_t chksum)
     return (uint16_t)sum;
 }
 
-uint32_t Net::IP4Addr(char *src)
+uint32_t Net::IP4Addr(const char *src)
 {
     static const char digits[] = "0123456789";
     int saw_digit, octets, ch;
@@ -154,10 +154,10 @@ uint32_t Net::IP4Addr(char *src)
     return (tmp);
 }
 
-char* Net::IP4Addr(uint32_t ip, char *buf)
+const char* Net::IP4Addr(uint32_t ip, const char *buf)
 {
     const char *d;
-    char *p = buf;
+    char *p = (char*)buf;
     uint8_t *data = (uint8_t *)&ip;
 
     for (int i = 0; i < 4; i++) {
@@ -170,7 +170,7 @@ char* Net::IP4Addr(uint32_t ip, char *buf)
     return (buf);
 }
 
-char* Net::IP4Addr(uint32_t ip)
+const char* Net::IP4Addr(uint32_t ip)
 {
     static char buf[16];
     IP4Addr(ip, buf);
@@ -188,7 +188,7 @@ int Hex(char ch)
     return -1;
 }
 
-uint8_t* Net::MACAddr(char *s, uint8_t *mac)
+uint8_t* Net::MACAddr(const char *s, uint8_t *mac)
 {
     /* Don't dirty result unless string is valid MAC. */
     for (int i = 0; i < 6; i++) {
@@ -203,9 +203,9 @@ uint8_t* Net::MACAddr(char *s, uint8_t *mac)
     return mac;
 }
 
-char* Net::MACAddr(uint8_t *mac, char *buf)
+const char* Net::MACAddr(uint8_t *mac, const char *buf)
 {
-    char *p = buf;
+    char *p = (char*)buf;
 
     for (int i = 0; i < 6; i++) {
         uint8_t byte = mac[i];
@@ -224,7 +224,7 @@ char* Net::MACAddr(uint8_t *mac, char *buf)
     return buf;
 }
 
-char* Net::MACAddr(uint8_t *mac)
+const char* Net::MACAddr(uint8_t *mac)
 {
     static char buf[18];
     MACAddr(mac, buf);

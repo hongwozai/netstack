@@ -14,7 +14,7 @@
 
 #include <stdint.h>
 
-#include "Errno.h"
+#include "RetType.h"
 #include "List.h"
 #include "MPool.h"
 
@@ -64,7 +64,7 @@ public:
 public:
 
     // 回退保留的一定字节数，若无空间则申请数据部分并添加
-    Errno header(int size);
+    RetType header(int size);
 
     // 将pktbuf连接到当前pktbuf的数据部分
     void cat(Pktbuf *);
@@ -72,7 +72,7 @@ public:
 public:
 
     // 初始化两个内存池
-    static Errno init(int pnum, int hnum, uint32_t hsize);
+    static RetType init(int pnum, int hnum, uint32_t hsize);
 
     // 销毁内存池
     static void destroy();

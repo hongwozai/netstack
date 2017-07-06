@@ -12,6 +12,7 @@
 #ifndef PROTO_H
 #define PROTO_H
 
+#include "Endian.h"
 #include "EtherHdr.h"
 #include "IPHdr.h"
 #include "ICMPHdr.h"

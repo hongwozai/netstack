@@ -23,11 +23,12 @@ public:
     virtual int linkoutput(Pktbuf *) = 0;
 
     // 底层的输入
-    virtual Errno linkinput(Pktbuf **) = 0;
+    virtual RetType linkinput(Pktbuf **) = 0;
 
     // 获取驱动信息
     virtual const char *info() = 0;
 
+    virtual void destroy() = 0;
 };
 
 #endif /* DRIVER_H */

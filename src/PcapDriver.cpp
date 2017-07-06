@@ -17,8 +17,8 @@
 #include "Log.h"
 #include "PcapDriver.h"
 
-Errno PcapDriver::init(bool isoffline, const char *name,
-                       const char *filter)
+RetType PcapDriver::init(bool isoffline, const char *name,
+                         const char *filter)
 {
     this->isoffline = isoffline;
     if (isoffline) {
@@ -39,19 +39,33 @@ Errno PcapDriver::init(bool isoffline, const char *name,
     return OK;
 }
 
+RetType PcapDriver::init(const char *name)
+{
+    pcap_send = pcap_open_live(name, 65535, 1, INT_MAX, errbuf);
+    if (!pcap) {
+        err("pcap_send error: (%s)\n", errbuf);
+        return INTERNL_ERROR;
+    }
+    return OK;
+}
+
 int PcapDriver::linkoutput(Pktbuf *pkt)
 {
     int  bufp = 0;
     // 足够的空间
     char buf[65600];
 
-    if (isoffline)
-        return -1;
+    if (!pcap_send)
+        return INTERNL_ERROR;
 
     if (pkt->hlist.count == 1) {
         // 快速发包，不复制数据
         Pktbuf::hunk *h = pkt->hlist.locate(pkt->hlist.head);
-        return pcap_inject(pcap, h->payload, pkt->total_len);
+        if (-1 == pcap_inject(pcap_send, h->payload, pkt->total_len)) {
+            err("pcap inject1 error: (%s)\n", pcap_geterr(pcap_send));
+            return INTERNL_ERROR;
+        }
+        return pkt->total_len;
     }
 
     List_foreach(pkt->hlist.head, temp) {
@@ -59,21 +73,26 @@ int PcapDriver::linkoutput(Pktbuf *pkt)
         memcpy(buf + bufp, h->payload, h->len);
         bufp += h->len;
     }
-    return pcap_inject(pcap, buf, bufp);
+    if (-1 == pcap_inject(pcap_send, buf, bufp)) {
+        err("pcap inject2 error: (%s)\n", pcap_geterr(pcap_send));
+        return INTERNL_ERROR;
+    }
+    return pkt->total_len;
 }
 
-Errno PcapDriver::linkinput(Pktbuf **ppkt)
+RetType PcapDriver::linkinput(Pktbuf **ppkt)
 {
     int ret;
     Pktbuf *p;
     const u_char *data;
+    Pktbuf::AllocType type;
     struct pcap_pkthdr *header;
 
     ret = pcap_next_ex(pcap, &header, &data);
     switch (ret) {
     case 1:
-        // TODO: 此处内存暂时使用动态分配
-        p = Pktbuf::alloc(Pktbuf::ALLOCATOR, header->caplen, Pktbuf::NONE);
+        type = (header->caplen > 1514) ? Pktbuf::ALLOCATOR:Pktbuf::FIXEDPOOL;
+        p = Pktbuf::alloc(type, header->caplen, Pktbuf::NONE);
         if (!p)
             return MEM_FAIL;
         memcpy(p->hlist.locate(p->hlist.head)->payload,
@@ -82,11 +101,14 @@ Errno PcapDriver::linkinput(Pktbuf **ppkt)
         *ppkt = p;
         return OK;
     case 0:
+        // openlive timeout
         return NO_PKT;
     case -1:
-    case -2:
         err("pcap_next_ex: %s\n", pcap_geterr(pcap));
         return INTERNL_ERROR;
+    case -2:
+        // open offline no more pkt
+        return NO_PKT;
     default:
         return NO_PKT;
     }

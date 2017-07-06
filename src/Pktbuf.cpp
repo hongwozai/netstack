@@ -23,7 +23,7 @@ MPool<Pktbuf>       Pktbuf::ppool;
 MPool<Pktbuf::hunk> Pktbuf::hpool;
 uint32_t            Pktbuf::hsize;
 
-Errno Pktbuf::header(int size)
+RetType Pktbuf::header(int size)
 {
     hunk *head, *h;
 
@@ -96,7 +96,7 @@ void Pktbuf::cat(Pktbuf *other)
     ppool.detach(other);
 }
 
-Errno Pktbuf::init(int pnum, int hnum, uint32_t hsize)
+RetType Pktbuf::init(int pnum, int hnum, uint32_t hsize)
 {
     uint32_t real = hsize + sizeof(hunk);
 
@@ -177,11 +177,17 @@ Pktbuf *Pktbuf::alloc(AllocType type, uint32_t len, ReserveType layer)
 
             h->type = FIXEDPOOL;
             if ((uint32_t)temp == reserve + len) {
-                h->payload = h->data + reserve;
-                h->len = hsize - reserve;
+                if ((uint32_t)temp > hsize) {
+                    h->payload = h->data + reserve;
+                    h->len = hsize - reserve;
+                } else {
+                    // 此时reserve <= hsize - len
+                    h->payload = h->data + hsize - len;
+                    h->len = len;
+                }
             } else {
                 h->payload = h->data;
-                h->len = hsize;
+                h->len = ((uint32_t)temp > hsize) ? hsize : temp;
             }
             pkt->hlist.append(h);
         }
@@ -202,6 +208,8 @@ void Pktbuf::free(Pktbuf *pkt)
     ListLink *temp, *next;
     List_safe_foreach(pkt->hlist.head, temp, next) {
         hunk *h = pkt->hlist.locate(temp);
+
+        pkt->hlist.detach(temp);
         switch (h->type) {
         case ALLOCATOR:
             ::free(h);

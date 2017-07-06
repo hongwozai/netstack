@@ -19,7 +19,7 @@
 
 using namespace Net;
 
-Errno ArpCache::init(uint8_t mod, uint64_t timeout)
+RetType ArpCache::init(uint8_t mod, uint64_t timeout)
 {
     memset(this, 0, sizeof(*this));
     this->timeout = timeout;
@@ -44,11 +44,11 @@ Errno ArpCache::init(uint8_t mod, uint64_t timeout)
     return OK;
 }
 
-Errno ArpCache::add(uint32_t ip, NetIf *device, NodeType type, uint8_t mac[6])
+ArpCache::Node *ArpCache::add(uint32_t ip, NetIf *device, NodeType type, uint8_t mac[6])
 {
     Node *n = npool.attach();
     if (!n)
-        return MEM_FAIL;
+        return NULL;
     n->type = type;
     n->ip   = ip;
     n->device = device;
@@ -65,7 +65,7 @@ Errno ArpCache::add(uint32_t ip, NetIf *device, NodeType type, uint8_t mac[6])
     }
     buckets[ip & mask].push(&n->link);
     count++;
-    return OK;
+    return n;
 }
 
 ArpCache::Node* ArpCache::find(uint32_t ip)
@@ -122,10 +122,11 @@ void ArpCache::print()
     for (uint32_t i = 0; i < (mask + 1); i++) {
         HList_foreach(buckets[i].head, temp) {
             Node *n = (Node*)temp;
-            printf("%s at <%s> on %s\n",
+            printf("%s at <%s> on %s (%d)\n",
                    IP4Addr(n->ip),
                    (n->type != INCOMPLETE) ? MACAddr(n->mac) : "incomplete",
-                   n->device ? n->device->name : "unknown");
+                   n->device ? n->device->name : "unknown",
+                   n->plist.count);
         }
     }
 }

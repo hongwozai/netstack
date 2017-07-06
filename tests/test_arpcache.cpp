@@ -49,8 +49,8 @@ int main(int argc, char *argv[])
 
     // 5.
     if (cache.getCount() != 1) exit(-1);
-    Errno en = cache.add(1, 0);
-    if (en != OK) exit(-1);
+    ArpCache::Node *en = cache.add(1, 0);
+    if (en == NULL) exit(-1);
     if (cache.getCount() != 2) exit(-1);
     // sleep(2);
     // cache.update();
