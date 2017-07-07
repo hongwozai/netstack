@@ -59,11 +59,11 @@ namespace Proto {
 #pragma pack(1)
     typedef struct IPHdr {
 #ifdef BIG_ENDIAN
-        uint8_t ip_hl:4;		/* header length */
         uint8_t ip_v:4;		/* version */
+        uint8_t ip_hl:4;		/* header length */
 #else /* LITTLE_ENDIAN */
-        uint8_t ip_v:4;		/* version */
         uint8_t ip_hl:4;		/* header length */
+        uint8_t ip_v:4;		/* version */
 #endif
         uint8_t  ip_tos;			/* type of service */
         uint16_t ip_len;			/* total length */
