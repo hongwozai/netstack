@@ -63,8 +63,10 @@ int PcapDriver::linkoutput(Pktbuf *pkt)
         Pktbuf::hunk *h = pkt->hlist.locate(pkt->hlist.head);
         if (-1 == pcap_inject(pcap_send, h->payload, pkt->total_len)) {
             err("pcap inject1 error: (%s)\n", pcap_geterr(pcap_send));
+            Pktbuf::free(pkt);
             return INTERNL_ERROR;
         }
+        Pktbuf::free(pkt);
         return pkt->total_len;
     }
 
@@ -75,8 +77,10 @@ int PcapDriver::linkoutput(Pktbuf *pkt)
     }
     if (-1 == pcap_inject(pcap_send, buf, bufp)) {
         err("pcap inject2 error: (%s)\n", pcap_geterr(pcap_send));
+        Pktbuf::free(pkt);
         return INTERNL_ERROR;
     }
+    Pktbuf::free(pkt);
     return pkt->total_len;
 }
 

@@ -122,7 +122,8 @@ void ArpCache::print()
     for (uint32_t i = 0; i < (mask + 1); i++) {
         HList_foreach(buckets[i].head, temp) {
             Node *n = (Node*)temp;
-            printf("%s at <%s> on %s (%d)\n",
+            printf("%c %s at <%s> on %s (%d)\n",
+                   (n->type == STATIC) ? 'S' : 'D',
                    IP4Addr(n->ip),
                    (n->type != INCOMPLETE) ? MACAddr(n->mac) : "incomplete",
                    n->device ? n->device->name : "unknown",

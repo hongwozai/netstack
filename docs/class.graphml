@@ -122,7 +122,7 @@ int Dbg(fmt, args...);</y:MethodLabel>
               <y:Geometry height="172.4276063631072" width="242.55300127713917" x="-470.3507852199641" y="723.7861968184463"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="73.86865234375" x="84.34217446669459" y="3.0">ArpCache<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="73.86865234375" x="84.34217446669459" y="70.2622472713964">ArpCache<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -150,7 +150,7 @@ void print();</y:MethodLabel>
               <y:Geometry height="172.6857142857143" width="253.052380952381" x="450.82364462860363" y="370.07522321428564"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="49.3603515625" x="101.8460146949405" y="3.0">Driver<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="49.3603515625" x="101.8460146949405" y="70.38174326371177">Driver<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -175,7 +175,7 @@ virtual int     init();</y:MethodLabel>
               <y:Geometry height="119.0" width="193.0" x="-162.79778394282494" y="745.3228422619047"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="54.0703125" x="69.46484375" y="3.0">EtherIf<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="54.0703125" x="69.46484375" y="45.52691650390625">EtherIf<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -200,7 +200,7 @@ void send_response(uint8_t dst_mac[6], uint32_t dst_Ip);
               <y:Geometry height="119.0" width="144.5" x="111.48554939050842" y="745.3228422619047"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="73.88134765625" x="35.309326171875" y="3.0">Loopback<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="73.88134765625" x="35.309326171875" y="45.52691650390625">Loopback<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -221,7 +221,7 @@ void send_response(uint8_t dst_mac[6], uint32_t dst_Ip);
               <y:Geometry height="293.47815534965184" width="193.0" x="-44.47519153037342" y="309.6790026823168"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="40.40380859375" x="76.298095703125" y="3.0">NetIf<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="40.40380859375" x="76.298095703125" y="126.30491084159166">NetIf<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -257,7 +257,7 @@ virtual void  down();</y:MethodLabel>
               <y:Geometry height="106.0" width="170.5" x="326.7748084696266" y="621.4418898809523"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="84.67236328125" x="42.913818359375" y="3.0">PcapDriver<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="84.67236328125" x="42.913818359375" y="39.508318219866055">PcapDriver<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -278,7 +278,7 @@ virtual void  down();</y:MethodLabel>
               <y:Geometry height="28.0" width="107.0" x="520.2748084696266" y="624.4418898809523"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="101.3349609375" x="2.83251953125" y="3.0">OcteonDriver<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="101.3349609375" x="2.83251953125" y="3.396728515625">OcteonDriver<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -299,7 +299,7 @@ virtual void  down();</y:MethodLabel>
               <y:Geometry height="28.0" width="166.0" x="650.2748084696266" y="624.4418898809523"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="143.33740234375" x="11.331298828125" y="3.0">OcteonMgmtDriver<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="143.33740234375" x="11.331298828125" y="3.396728515625">OcteonMgmtDriver<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -320,7 +320,7 @@ virtual void  down();</y:MethodLabel>
               <y:Geometry height="252.51462312925167" width="257.6250510204081" x="-408.8915339428248" y="340.9942708333333"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="52.60400390625" x="102.51052355707904" y="3.0">Pktbuf<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="52.60400390625" x="102.51052355707907" y="107.34006124698209">Pktbuf<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -353,7 +353,7 @@ static Pktbuf *free();</y:MethodLabel>
               <y:Geometry height="129.69161345253303" width="160.81226053639853" x="-704.0" y="745.1541932737334"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="122.19970703125" x="19.306276752574263" y="3.0">ArpCache::Node
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="122.19970703125" x="19.306276752574263" y="50.476803148447516">ArpCache::Node
 <y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
@@ -382,7 +382,7 @@ List&lt;Pktbuf&gt; plist;</y:AttributeLabel>
               <y:Geometry height="103.91647346938777" width="136.67591836734698" x="-630.0561621561717" y="422.2933456632653"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
-              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="99.41162109375" x="18.63214863679849" y="3.0">Pktbuf::hunk<y:LabelModel>
+              <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="99.41162109375" x="18.632148636798547" y="38.54370981972028">Pktbuf::hunk<y:LabelModel>
                   <y:SmartNodeLabelModel distance="4.0"/>
                 </y:LabelModel>
                 <y:ModelParameter>
@@ -501,11 +501,11 @@ char      data[1];</y:AttributeLabel>
         </edge>
       </graph>
     </node>
-    <node id="n4" yfiles.foldertype="group">
+    <node id="n4" yfiles.foldertype="folder">
       <data key="d4"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
-          <y:Realizers active="0">
+          <y:Realizers active="1">
             <y:GroupNode>
               <y:Geometry height="551.5276041666666" width="983.6774075875485" x="-729.8225924124515" y="-326.79427083333337"/>
               <y:Fill color="#CAECFF80" transparent="false"/>
@@ -596,11 +596,11 @@ int forward(Pktbuf*);
                 </y:ModelParameter>
               </y:NodeLabel>
               <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="false">
-                <y:AttributeLabel>HList *buckets;
-uint32_t size;
+                <y:AttributeLabel>List&lt;Node&gt; array[33];
+MPool&lt;Node&gt; npool;
 </y:AttributeLabel>
                 <y:MethodLabel>int init(int mod);
-int add(type, network, netmask, gateway, device);
+int add(network, netmask, gateway, device);
 int del(network, netmask, device);
 Node *find(uint32_t ip);</y:MethodLabel>
               </y:UML>
@@ -650,8 +650,7 @@ uint64_t expires;</y:AttributeLabel>
                 </y:ModelParameter>
               </y:NodeLabel>
               <y:UML clipContent="true" constraint="" omitDetails="false" stereotype="" use3DEffect="false">
-                <y:AttributeLabel>HashLink link;
-int           type;
+                <y:AttributeLabel>ListLink link;
 uint32_t  network;
 uint32_t  netmask;
 uint32_t  gateway;
@@ -665,7 +664,7 @@ Netif      *device;</y:AttributeLabel>
           <data key="d4"/>
           <data key="d6">
             <y:UMLClassNode>
-              <y:Geometry height="153.0" width="146.5" x="-199.5725924124515" y="-300.33333333333337"/>
+              <y:Geometry height="105.0" width="146.5" x="-199.5725924124515" y="-202.5"/>
               <y:Fill color="#FFCC00" transparent="false"/>
               <y:BorderStyle color="#000000" type="line" width="1.0"/>
               <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="13" fontStyle="bold" hasBackgroundColor="false" hasLineColor="false" height="19.1328125" modelName="custom" textColor="#000000" visible="true" width="40.841796875" x="52.8291015625" y="3.0">ICMP<y:LabelModel>
@@ -685,6 +684,50 @@ void portnoreach();</y:MethodLabel>
             </y:UMLClassNode>
           </data>
         </node>
+        <edge id="n4::e0" source="n4::n1" target="n4::n0">
+          <data key="d8"/>
+          <data key="d10">
+            <y:PolyLineEdge>
+              <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+              <y:LineStyle color="#000000" type="line" width="1.0"/>
+              <y:Arrows source="diamond" target="none"/>
+              <y:BendStyle smoothed="false"/>
+            </y:PolyLineEdge>
+          </data>
+        </edge>
+        <edge id="n4::e1" source="n4::n1" target="n4::n2">
+          <data key="d8"/>
+          <data key="d10">
+            <y:PolyLineEdge>
+              <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+              <y:LineStyle color="#000000" type="line" width="1.0"/>
+              <y:Arrows source="diamond" target="none"/>
+              <y:BendStyle smoothed="false"/>
+            </y:PolyLineEdge>
+          </data>
+        </edge>
+        <edge id="n4::e2" source="n4::n3" target="n4::n0">
+          <data key="d8"/>
+          <data key="d10">
+            <y:PolyLineEdge>
+              <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+              <y:LineStyle color="#000000" type="line" width="1.0"/>
+              <y:Arrows source="none" target="none"/>
+              <y:BendStyle smoothed="false"/>
+            </y:PolyLineEdge>
+          </data>
+        </edge>
+        <edge id="n4::e3" source="n4::n4" target="n4::n2">
+          <data key="d8"/>
+          <data key="d10">
+            <y:PolyLineEdge>
+              <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
+              <y:LineStyle color="#000000" type="line" width="1.0"/>
+              <y:Arrows source="none" target="none"/>
+              <y:BendStyle smoothed="false"/>
+            </y:PolyLineEdge>
+          </data>
+        </edge>
       </graph>
     </node>
     <node id="n5" yfiles.foldertype="group">
@@ -793,50 +836,6 @@ int (*recv)(Pktbuf *);</y:AttributeLabel>
         </node>
       </graph>
     </node>
-    <edge id="n4::e0" source="n4::n1" target="n4::n0">
-      <data key="d8"/>
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="diamond" target="none"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="n4::e1" source="n4::n1" target="n4::n2">
-      <data key="d8"/>
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="diamond" target="none"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="n4::e2" source="n4::n3" target="n4::n0">
-      <data key="d8"/>
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="none"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
-    <edge id="n4::e3" source="n4::n4" target="n4::n2">
-      <data key="d8"/>
-      <data key="d10">
-        <y:PolyLineEdge>
-          <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
-          <y:LineStyle color="#000000" type="line" width="1.0"/>
-          <y:Arrows source="none" target="none"/>
-          <y:BendStyle smoothed="false"/>
-        </y:PolyLineEdge>
-      </data>
-    </edge>
     <edge id="n5::e0" source="n5::n2" target="n5::n1">
       <data key="d8"/>
       <data key="d10">

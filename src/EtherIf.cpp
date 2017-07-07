@@ -112,22 +112,25 @@ RetType EtherIf::input(Pktbuf *pkt)
         pkt->header(sizeof(EtherHdr) + sizeof(VlanHdr));
 
     case ETH_P_IP:
-        // ret = Netstack::instance()->ip.input();
+        pkt->header(sizeof(EtherHdr));
+        pkt->device = this;
+        ret = IP::instance()->input(pkt);
         break;
 
     case ETH_P_ARP:
         // arp包不会被存储
         pkt->header(sizeof(EtherHdr));
-        return arp_input(pkt);
+        ret = arp_input(pkt);
+        break;
 
     default:
         // NOTE: 该协议栈当前不处理pppoe,ipv6的包，其余数据包全部丢掉
-        ret = OK;
+        ret = NOT_SUPPORT_PKT;
         break;
     }
-
-    if (ret != USE_PKT) {
+    if (ret != USE_PKT && ret != FREED_PKT) {
         Pktbuf::free(pkt);
+        return ret;
     }
     return ret;
 }
@@ -169,37 +172,38 @@ RetType EtherIf::arp_input(Pktbuf *p)
             break;
         }
         n = cache->find(arp->arp_sipaddr);
-        if (n) {
-            switch (n->type) {
-            case ArpCache::INCOMPLETE:
-                // 修改状态
-                n->type = ArpCache::STABLE;
-                // 发送链表上的所有数据包
-                List_safe_foreach(n->plist.head, temp, next) {
-                    Pktbuf *p = n->plist.locate(temp);
-
-                    // 添加目的mac
-                    h = p->hlist.locate(p->hlist.head);
-                    ether = (EtherHdr*)h->payload;
-                    memcpy(ether->dst, arp->arp_shwaddr, 6);
-
-                    // 发送
-                    driver->linkoutput(p);
-                    // 释放
-                    n->plist.detach(temp);
-                    Pktbuf::free(p);
-                }
-
-            case ArpCache::STABLE:
-                memcpy(n->mac, arp->arp_shwaddr, 6);
-                break;
-
-            case ArpCache::STATIC:
-                // nothing
-                break;
-            }
+        if (!n) {
+            // n为空直接忽略该响应包
+            break;
         }
-        // n为空直接忽略该响应包
+        switch (n->type) {
+        case ArpCache::INCOMPLETE:
+            // 修改状态
+            n->type = ArpCache::STABLE;
+            // 发送链表上的所有数据包
+            List_safe_foreach(n->plist.head, temp, next) {
+                Pktbuf *p = n->plist.locate(temp);
+
+                // 添加目的mac
+                h = p->hlist.locate(p->hlist.head);
+                ether = (EtherHdr*)h->payload;
+                memcpy(ether->dst, arp->arp_shwaddr, 6);
+
+                // 释放
+                n->plist.detach(temp);
+                // 发送
+                driver->linkoutput(p);
+            }
+
+        case ArpCache::STABLE:
+            memcpy(n->mac, arp->arp_shwaddr, 6);
+            break;
+
+        case ArpCache::STATIC:
+            // nothing
+            break;
+        }
+
         break;
 
     default:
@@ -242,9 +246,7 @@ RetType EtherIf::arp_output(bool isrequest,
 
     // 发送数据包
     if ((bytes = driver->linkoutput(p)) < 0) {
-        Pktbuf::free(p);
         return SEND_FAIL;
     }
-    Pktbuf::free(p);
     return OK;
 }

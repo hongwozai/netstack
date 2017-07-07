@@ -7,7 +7,8 @@
  ** 创建日期： 2017-06-24
  **
  ** 描  述：Pktbuf
- ** 注  意：1.
+ ** 注  意：1. NOTE: 分配原则：下层分配 -> 下层释放，部分上层释放（重组数据包时）
+ **                         上层分配 -> 下层释放
  ********************************************************************/
 #include <cstdio>
 #include <cstddef>
@@ -92,6 +93,7 @@ void Pktbuf::cat(Pktbuf *other)
         hunk *h = other->hlist.locate(temp);
         other->hlist.detach(temp);
         hlist.append(h);
+        total_len += h->len;
     }
     ppool.detach(other);
 }
