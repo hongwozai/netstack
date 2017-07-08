@@ -42,6 +42,8 @@ enum RetType {
     OK_WITH_DEFRAG,
     // 没有合适的路由表项
     NO_ROUTE,
+    // 数据过大（超过65535）
+    TOO_BIG,
 
     // 不支持
     NOT_SUPPORT_PKT,

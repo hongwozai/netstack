@@ -75,6 +75,10 @@ int PcapDriver::linkoutput(Pktbuf *pkt)
         memcpy(buf + bufp, h->payload, h->len);
         bufp += h->len;
     }
+    if (bufp != pkt->total_len) {
+        err("pkt.hlist.len != pkt.total_len!\n");
+        return INTERNL_ERROR;
+    }
     if (-1 == pcap_inject(pcap_send, buf, bufp)) {
         err("pcap inject2 error: (%s)\n", pcap_geterr(pcap_send));
         Pktbuf::free(pkt);

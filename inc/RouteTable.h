@@ -38,6 +38,7 @@ public:
     void    destroy();
 
     // 添加路由表项
+    // @param gateway为0的，直接发送；gateway不为0，发送到网关
     RetType add(uint32_t network, uint32_t netmask, uint32_t gateway,
                 NetIf   *device);
 
@@ -45,6 +46,8 @@ public:
     RetType del(uint32_t network, uint32_t netmask);
 
     // 根据ip找一跳
+    // @param gateway为0，下一跳目的就是dst_ip（直接发送）
+    //        gateway不为0，下一跳目的就是gateway
     Node   *nextHop(uint32_t ip);
 
     // 打印，调试使用

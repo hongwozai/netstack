@@ -27,9 +27,12 @@ public:
 
     RetType input(Pktbuf *p);
 
-    RetType output(Pktbuf *p, uint32_t dst_ip);
+    RetType output(Pktbuf *p, uint32_t dst_ip, uint8_t pro);
 
-    RetType output(Pktbuf *p, uint32_t dst_ip, NetIf *device);
+    // 内部发送函数
+    // @param nexthop下一跳ip（或是dst_ip, 或是gateway）
+    RetType output(Pktbuf *p, uint32_t dst_ip, uint8_t pro,
+                   NetIf *device, uint32_t nexthop);
 
     RetType forward(Pktbuf *p);
 
