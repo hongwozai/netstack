@@ -15,6 +15,7 @@
 #include <cstdlib>
 
 #include "IP.h"
+#include "ICMP.h"
 #include "Netutils.h"
 #include "Protocol/Proto.h"
 
@@ -83,11 +84,16 @@ RetType IP::input(Pktbuf *p)
         // 其余协议不支持
         return NOT_SUPPORT_PKT;
     }
-    if (isdefrag) {
-        Pktbuf::free(p);
-        return FREED_PKT;
+    // TODO: 返回值问题，如果上层发生错误，同时又是分片数据包，
+    //                 那么给下层的返回值就一定是FREED_PKT，否则就会多次释放
+    if (ret != USE_PKT && ret != FREED_PKT) {
+        if (isdefrag) {
+            Pktbuf::free(p);
+            return FREED_PKT;
+        }
+        return ret;
     }
-    return OK;
+    return ret;
 }
 
 RetType IP::output(Pktbuf *p, uint32_t dst_ip, uint8_t pro)
