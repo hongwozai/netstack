@@ -35,13 +35,13 @@ int main(int argc, char *argv[])
     Pktbuf::init(1024, 1024, 1514);
     cache.init();
     rt.init();
-    // pcap->init(true, "../../tests/icmp_test.pcap");
-    if (OK != pcap->init(false, "eth2", "")) {
-        exit(-1);
-    }
+    pcap->init(true, "../../tests/icmp_test.pcap");
+    // if (OK != pcap->init(false, "eth2", "")) {
+    //     exit(-1);
+    // }
     pcap->init("eth2");
-    device.NetIf::init("pcap0", Net::IP4Addr("192.168.100.32"), 1500, pcap);
-    device.init(Net::MACAddr("00:23:24:44:71:45", mac), &cache);
+    device.NetIf::init("pcap0", Net::IP4Addr("192.168.100.29"), 1500, pcap);
+    device.init(Net::MACAddr("00:23:24:44:71:91", mac), &cache);
 
     // 缓存
     // cache.add(IP4Addr("192.168.101.28"), &device,
@@ -53,12 +53,12 @@ int main(int argc, char *argv[])
 
     // 小包
     for (;;) {
-        if (OK != pcap->linkinput(&p)) {
-            continue;
+        if (OK != (pcap->linkinput(&p))) {
+            break;
         }
-        // printf("recv pkt!\n");
         ret = device.input(p);
     }
+    printf("ret: %d\n", ret);
     if (ret != FREED_PKT) exit(-1);
     pcap->destroy();
 
