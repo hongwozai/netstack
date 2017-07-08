@@ -95,7 +95,7 @@ public:
     // 数据包链表
     ListLink link;
 
-    // 数据部分总长度
+    // 数据部分总长度（不包括预留的空间）
     uint32_t total_len;
 
     // vlan相关

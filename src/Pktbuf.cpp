@@ -30,6 +30,8 @@ RetType Pktbuf::header(int size)
 
     if (size == 0) return OK;
 
+    if (hlist.count == 0)
+        return ARGS_ERROR;
     head = hlist.locate(hlist.head);
     if (size < 0) {
         // 取反
@@ -116,8 +118,7 @@ Pktbuf *Pktbuf::split(unsigned size)
     p->hlist.config(offsetof(hunk, link));
 
     List_safe_foreach(hlist.head, temp, next) {
-        Pktbuf::hunk *h = p->hlist.locate(temp);
-        printf("h->len: %d, size: %d\n", h->len, size);
+        Pktbuf::hunk *h = hlist.locate(temp);
         if (size >= h->len) {
             // 去掉
             hlist.detach(temp);
@@ -213,7 +214,7 @@ Pktbuf *Pktbuf::alloc(AllocType type, uint32_t len, ReserveType layer)
     if (!pkt)
         return NULL;
 
-    pkt->total_len = reserve + len;
+    pkt->total_len = len;
     pkt->isvlan    = false;
     pkt->hlist.config(offsetof(hunk, link));
 

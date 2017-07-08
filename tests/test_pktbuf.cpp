@@ -121,11 +121,11 @@ int main(int argc, char *argv[])
 
     // 10, 测试total_len
     p = Pktbuf::alloc(Pktbuf::FIXEDPOOL, 3000, Pktbuf::TCP);
-    if (p->total_len != (3000 + 20 + 20 + 14)) exit(-1);
+    if (p->total_len != (3000)) exit(-1);
     p->header(20);
-    if (p->total_len != 3000 + 20 + 14) exit(-1);
+    if (p->total_len != 2980) exit(-1);
     p->header(2000);
-    if (p->total_len != 1034) exit(-1);
+    if (p->total_len != 980) exit(-1);
     Pktbuf::free(p);
 
     // 11. split
