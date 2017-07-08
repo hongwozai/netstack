@@ -77,6 +77,7 @@ bool FragTable::del(Node *n)
         Pktbuf::free(p);
     }
     timechain.detach(&n->timelink);
+    buckets[0].del(&n->link);
     npool.detach(n);
     count--;
     return false;
