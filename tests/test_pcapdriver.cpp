@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
     // 1.
     no = pd.init(true, "../../tests/1.pcap");
     if (no != OK) exit(-1);
+    pd.setDev(0);
 
     // 2.
     Pktbuf *p = Pktbuf::alloc(Pktbuf::FIXEDPOOL, 1500, Pktbuf::NONE);
@@ -36,7 +37,7 @@ int main(int argc, char *argv[])
 
     // 3.
     int i = 0;
-    while (OK == pd.linkinput(&p)) {
+    while (OK == pd.linkinput()) {
         i++;
     }
     if (i != 13) exit(-1);

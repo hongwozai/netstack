@@ -19,6 +19,8 @@ class PcapDriver : public Driver
 {
 public:
 
+    PcapDriver() : isoffline(true), pcap(0), pcap_send(0) {}
+
     // 驱动接受初始化
     RetType init(bool isoffline, const char *name,
                  const char *filter = "inbound");
@@ -30,7 +32,7 @@ public:
     int   linkoutput(Pktbuf *);
 
     // 底层的输入
-    RetType linkinput(Pktbuf **);
+    RetType linkinput();
 
     // 获取驱动信息
     const char *info() { return pcap_lib_version(); }

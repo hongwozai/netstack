@@ -15,6 +15,7 @@
 #include <cstdlib>
 
 #include "Log.h"
+#include "NetIf.h"
 #include "PcapDriver.h"
 
 RetType PcapDriver::init(bool isoffline, const char *name,
@@ -42,7 +43,7 @@ RetType PcapDriver::init(bool isoffline, const char *name,
 RetType PcapDriver::init(const char *name)
 {
     pcap_send = pcap_open_live(name, 65535, 1, INT_MAX, errbuf);
-    if (!pcap) {
+    if (!pcap_send) {
         err("pcap_send error: (%s)\n", errbuf);
         return INTERNL_ERROR;
     }
@@ -51,18 +52,19 @@ RetType PcapDriver::init(const char *name)
 
 int PcapDriver::linkoutput(Pktbuf *pkt)
 {
-    uint32_t bufp = 0;
     // 足够的空间
+    uint32_t bufp;
     char buf[65600];
+    pcap_t *ppcap = pcap_send ? pcap_send : pcap;
 
-    if (!pcap_send)
+    if (!ppcap)
         return INTERNL_ERROR;
 
     if (pkt->hlist.count == 1) {
         // 快速发包，不复制数据
         Pktbuf::hunk *h = pkt->hlist.locate(pkt->hlist.head);
-        if (-1 == pcap_inject(pcap_send, h->payload, pkt->total_len)) {
-            err("pcap inject1 error: (%s)\n", pcap_geterr(pcap_send));
+        if (-1 == pcap_inject(ppcap, h->payload, pkt->total_len)) {
+            err("pcap inject1 error: (%s)\n", pcap_geterr(ppcap));
             Pktbuf::free(pkt);
             return INTERNL_ERROR;
         }
@@ -70,6 +72,7 @@ int PcapDriver::linkoutput(Pktbuf *pkt)
         return pkt->total_len;
     }
 
+    bufp = 0;
     List_foreach(pkt->hlist.head, temp) {
         Pktbuf::hunk *h = pkt->hlist.locate(temp);
         memcpy(buf + bufp, h->payload, h->len);
@@ -79,8 +82,8 @@ int PcapDriver::linkoutput(Pktbuf *pkt)
         err("pkt.hlist.len != pkt.total_len!\n");
         return INTERNL_ERROR;
     }
-    if (-1 == pcap_inject(pcap_send, buf, bufp)) {
-        err("pcap inject2 error: (%s)\n", pcap_geterr(pcap_send));
+    if (-1 == pcap_inject(ppcap, buf, bufp)) {
+        err("pcap inject2 error: (%s)\n", pcap_geterr(ppcap));
         Pktbuf::free(pkt);
         return INTERNL_ERROR;
     }
@@ -88,7 +91,7 @@ int PcapDriver::linkoutput(Pktbuf *pkt)
     return pkt->total_len;
 }
 
-RetType PcapDriver::linkinput(Pktbuf **ppkt)
+RetType PcapDriver::linkinput()
 {
     int ret;
     Pktbuf *p;
@@ -106,7 +109,9 @@ RetType PcapDriver::linkinput(Pktbuf **ppkt)
         memcpy(p->hlist.locate(p->hlist.head)->payload,
                data,
                header->caplen);
-        *ppkt = p;
+        // 提交上层
+        if (dev)
+            return dev->input(p);
         return OK;
     case 0:
         // openlive timeout
@@ -116,7 +121,7 @@ RetType PcapDriver::linkinput(Pktbuf **ppkt)
         return INTERNL_ERROR;
     case -2:
         // open offline no more pkt
-        return NO_PKT;
+        return FINISHED_PKT;
     default:
         return NO_PKT;
     }
@@ -124,5 +129,8 @@ RetType PcapDriver::linkinput(Pktbuf **ppkt)
 
 void PcapDriver::destroy()
 {
-    pcap_close(pcap);
+    if (pcap)
+        pcap_close(pcap);
+    if (pcap_send)
+        pcap_close(pcap_send);
 }

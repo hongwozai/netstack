@@ -34,6 +34,7 @@ enum RetType {
     MALFORMATION_PKT,
     NOTME_PKT,
     NO_PKT,
+    FINISHED_PKT,
 
     /**
      * ip层

@@ -40,6 +40,7 @@ int main(int argc, char *argv[])
     //     exit(-1);
     // }
     pcap->init("eth2");
+    pcap->setDev(&device);
     device.NetIf::init("pcap0", Net::IP4Addr("192.168.100.29"), 1500, pcap);
     device.init(Net::MACAddr("00:23:24:44:71:91", mac), &cache);
 
@@ -52,14 +53,14 @@ int main(int argc, char *argv[])
     if (ret != OK) exit(-1);
 
     // 小包
-    for (;;) {
-        if (OK != (pcap->linkinput(&p))) {
+    for (int i = 0;; i++) {
+        if (FINISHED_PKT == (ret = pcap->linkinput())) {
             break;
         }
-        ret = device.input(p);
+        if (ret == FREED_PKT && i != 33)
+            exit(-1);
     }
-    printf("ret: %d\n", ret);
-    if (ret != FREED_PKT) exit(-1);
+    if (ret != FINISHED_PKT) exit(-1);
     pcap->destroy();
 
     rt.destroy();

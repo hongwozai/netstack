@@ -36,6 +36,7 @@ int main(int argc, char *argv[])
     rt.init();
     pcap->init(true, "../../tests/frag.pcap");
     pcap->init("eth2");
+    pcap->setDev(&device);
     device.NetIf::init("pcap0", Net::IP4Addr("192.168.100.29"), 1500, pcap);
     device.init(Net::MACAddr("00:23:24:44:71:91", mac), &cache);
 
@@ -47,26 +48,29 @@ int main(int argc, char *argv[])
     ret = ip->init(&rt);
     if (ret != OK) exit(-1);
 
+    printf("=====\n");
     // 1. 小包
-    for (;;) {
-        if (OK != pcap->linkinput(&p))
+    for (int i = 0; ; i++) {
+        if (FINISHED_PKT == (ret = pcap->linkinput()))
             break;
-        ret = device.input(p);
-        printf("ret: %d\n", ret);
+        if (ret == FREED_PKT && i != 3) {
+            exit(-1);
+        }
     }
-    if (ret != FREED_PKT) exit(-1);
+    printf("ret: %d\n", ret);
+    if (ret != FINISHED_PKT) exit(-1);
     pcap->destroy();
 
     // 2. 大包
     printf("=======\n");
     pcap->init(true, "../../tests/frag1.pcap");
-    for (;;) {
-        if (OK != pcap->linkinput(&p))
+    for (int i = 0;; i++) {
+        if (FINISHED_PKT == (ret = pcap->linkinput()))
             break;
-        ret = device.input(p);
-        printf("ret: %d\n", ret);
+        if (ret == FREED_PKT && i != 33)
+            exit(-1);
     }
-    if (ret != FREED_PKT) exit(-1);
+    if (ret != FINISHED_PKT) exit(-1);
 
     // 3. 发包1
     rt.print();

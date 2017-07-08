@@ -42,6 +42,7 @@ int main(int argc, char *argv[])
         printf("ret: %d\n", ret);
         exit(-1);
     }
+    pcap->setDev(&device);
 
     // 检查cache是否存在
     cache.print();
@@ -51,9 +52,8 @@ int main(int argc, char *argv[])
 
     // 接受响应
     for (;;) {
-        if (OK != pcap->linkinput(&p))
+        if (OK != (ret = pcap->linkinput()))
             break;
-        ret = device.input(p);
         if (ret != OK && ret != USE_PKT) exit(-1);
     }
     cache.print();
@@ -65,9 +65,8 @@ int main(int argc, char *argv[])
     device.NetIf::init("pcap1", Net::IP4Addr("192.168.100.29"), 1500, pcap);
     device.init(Net::MACAddr("00:23:24:44:71:91", mac), &cache);
     for (;;) {
-        if (OK != pcap->linkinput(&p))
+        if (OK != (ret = pcap->linkinput()))
             break;
-        ret = device.input(p);
         if (ret != OK) exit(-1);
     }
     return 0;
