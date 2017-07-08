@@ -72,13 +72,15 @@ RetType IP::input(Pktbuf *p)
     }
 
     // 协议分发（重组后p已经是真正的数据包了,非当前数据包）
-    p->header(sizeof(IPHdr));
     switch(ip->ip_p) {
     case IPPROTO_UDP:
+        p->header(sizeof(IPHdr));
         break;
     case IPPROTO_TCP:
+        p->header(sizeof(IPHdr));
         break;
     case IPPROTO_ICMP:
+        ret = ICMP::instance()->input(p);
         break;
     default:
         // 其余协议不支持
@@ -110,6 +112,11 @@ RetType IP::output(Pktbuf *p, uint32_t dst_ip, uint8_t pro)
     }
     if (!n->device)
         return NO_ROUTE;
+
+    // 原始套接字
+    if (pro == 0xff) {
+        return n->device->output(p, n->gateway ? n->gateway : dst_ip);
+    }
     // 输出
     return output(p, dst_ip, pro, n->device, n->gateway ? n->gateway:dst_ip);
 }

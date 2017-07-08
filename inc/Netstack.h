@@ -35,8 +35,6 @@ public:
     // arp缓存
     ArpCache arp_cache;
 
-    // ip层处理
-    IP ip;
 };
 
 #endif /* NETSTACK_H */

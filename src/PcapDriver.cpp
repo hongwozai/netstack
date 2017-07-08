@@ -29,12 +29,12 @@ RetType PcapDriver::init(bool isoffline, const char *name,
         }
         return OK;
     }
-    pcap = pcap_open_live(name, 65535, 1, INT_MAX, errbuf);
+    pcap = pcap_open_live(name, 65535, 1, -1, errbuf);
     if (!pcap) {
         err("pcap error: (%s)\n", errbuf);
         return INTERNL_ERROR;
     }
-    pcap_compile(pcap, &fp, "inbound", 1, 0);
+    pcap_compile(pcap, &fp, filter, 1, 0);
     pcap_setfilter(pcap, &fp);
     return OK;
 }
@@ -51,7 +51,7 @@ RetType PcapDriver::init(const char *name)
 
 int PcapDriver::linkoutput(Pktbuf *pkt)
 {
-    int  bufp = 0;
+    uint32_t bufp = 0;
     // 足够的空间
     char buf[65600];
 

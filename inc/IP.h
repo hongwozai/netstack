@@ -27,6 +27,7 @@ public:
 
     RetType input(Pktbuf *p);
 
+    // @param pro 等于255时即IPPROTO_RAW，即是原始ip包直接发送
     RetType output(Pktbuf *p, uint32_t dst_ip, uint8_t pro);
 
     // 内部发送函数
@@ -37,6 +38,12 @@ public:
     RetType forward(Pktbuf *p);
 
     void destroy();
+
+private:
+
+    IP() {}
+
+    ~IP() {}
 
 private:
 

@@ -72,6 +72,10 @@ public:
     // 分割数据包
     Pktbuf *split(unsigned size);
 
+    // 计算校验和，开始的size个字节不在校验之内
+    // NOTE: 不支持size大小超过一个hunk的
+    uint16_t checksum(unsigned size = 0);
+
 public:
 
     // 初始化两个内存池

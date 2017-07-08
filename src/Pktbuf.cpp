@@ -16,8 +16,10 @@
 #include <cstring>
 
 #include "Pktbuf.h"
+#include "Netutils.h"
 #include "Protocol/Proto.h"
 
+using namespace Net;
 using namespace Proto;
 
 MPool<Pktbuf>       Pktbuf::ppool;
@@ -155,6 +157,22 @@ Pktbuf *Pktbuf::split(unsigned size)
 fail:
     ppool.detach(p);
     return NULL;
+}
+
+uint16_t Pktbuf::checksum(unsigned size)
+{
+    uint16_t sum = 0;
+    List_foreach(hlist.head, temp) {
+        hunk *h = hlist.locate(temp);
+        if (temp == hlist.head && h->len > size) {
+            sum = ChecksumFold(h->payload + size,
+                                h->len - size,
+                                sum);
+        } else {
+            sum = ChecksumFold(h->payload, h->len, sum);
+        }
+    }
+    return ~sum;
 }
 
 RetType Pktbuf::init(int pnum, int hnum, uint32_t hsize)

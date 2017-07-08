@@ -40,11 +40,11 @@ public:
 
     inline void config(int offset = 0);
 
-    inline void attach(Link *node, T *data);
+    inline void attach(Link *node, T *data) __attribute__((always_inline));
 
-    inline void detach(Link *node);
+    inline void detach(Link *node) __attribute__((always_inline));
 
-    inline T*   locate(Link *node);
+    inline T*   locate(Link *node) __attribute__((always_inline));
 
     inline void push(T *data);
 
