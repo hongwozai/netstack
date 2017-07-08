@@ -126,7 +126,38 @@ int main(int argc, char *argv[])
     if (p->total_len != 3000 + 20 + 14) exit(-1);
     p->header(2000);
     if (p->total_len != 1034) exit(-1);
+    Pktbuf::free(p);
 
+    // 11. split
+    p = Pktbuf::alloc(Pktbuf::FIXEDPOOL, 3000, Pktbuf::NONE);
+    if (!p) exit(-1);
+    Pktbuf *temp = p->split(1500);
+    printf("len: %d\n", temp->total_len);
+    if (temp->total_len != 1500) exit(-1);
+    h = temp->hlist.locate(temp->hlist.head);
+    printf("h->len: %d\n", h->len);
+    if (h->len != 1500) exit(-1);
+
+    printf("plen: %d\n", p->total_len);
+    if (p->total_len != 1500) exit(-1);
+    h = p->hlist.locate(p->hlist.head);
+    if (h->len != 14) exit(-1);
+    Pktbuf::free(p);
+
+    // 11.2 split
+    p = Pktbuf::alloc(Pktbuf::FIXEDPOOL, 5000, Pktbuf::NONE);
+    if (!p) exit(-1);
+    temp = p->split(2000);
+    printf("1len: %d\n", temp->total_len);
+    if (temp->total_len != 2000) exit(-1);
+    h = temp->hlist.locate(temp->hlist.head);
+    if (h->len != 1514) exit(-1);
+
+    h = p->hlist.locate(p->hlist.head);
+    printf("h->len: %d\n", h->len);
+    if (h->len != 1028) exit(-1);
+
+    Pktbuf::free(p);
     Pktbuf::destroy();
     return 0;
 }

@@ -69,6 +69,9 @@ public:
     // 将pktbuf连接到当前pktbuf的数据部分
     void cat(Pktbuf *);
 
+    // 分割数据包
+    Pktbuf *split(unsigned size);
+
 public:
 
     // 初始化两个内存池

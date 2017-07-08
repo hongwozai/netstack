@@ -98,6 +98,63 @@ void Pktbuf::cat(Pktbuf *other)
     ppool.detach(other);
 }
 
+Pktbuf *Pktbuf::split(unsigned size)
+{
+    Pktbuf *p = NULL;
+    ListLink *temp, *next;
+
+    if (size >= total_len) {
+        return NULL;
+    }
+
+    // 申请创建出来的pktbuf
+    p = ppool.attach();
+    if (!p)
+        return NULL;
+    p->total_len = 0;
+    p->isvlan  = false;
+    p->hlist.config(offsetof(hunk, link));
+
+    List_safe_foreach(hlist.head, temp, next) {
+        Pktbuf::hunk *h = p->hlist.locate(temp);
+        printf("h->len: %d, size: %d\n", h->len, size);
+        if (size >= h->len) {
+            // 去掉
+            hlist.detach(temp);
+            total_len    -= h->len;
+            // 添加到新的pktbuf
+            p->hlist.append(h);
+            p->total_len += h->len;
+            size -= h->len;
+        } else {
+            Pktbuf::hunk *newh;
+            if (size >= hsize) {
+                newh = (hunk*)malloc(sizeof(hunk) + size);
+            } else {
+                newh = hpool.attach();
+            }
+            if (!newh)
+                goto fail;
+            newh->len  = size;
+            newh->type = (size >= hsize) ? ALLOCATOR : FIXEDPOOL;
+            // 拷贝数据至新的节点
+            memcpy(newh->data, h->payload, size);
+            newh->payload = newh->data;
+            p->hlist.append(newh);
+            p->total_len += size;
+            // 删除当前数据
+            h->payload += size;
+            h->len     -= size;
+            total_len  -= size;
+            break;
+        }
+    }
+    return p;
+fail:
+    ppool.detach(p);
+    return NULL;
+}
+
 RetType Pktbuf::init(int pnum, int hnum, uint32_t hsize)
 {
     uint32_t real = hsize + sizeof(hunk);
