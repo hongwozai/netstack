@@ -40,6 +40,7 @@ RetType Pktbuf::header(int size)
         if (head->payload - size >= head->data) {
             // 可以安全的移动
             head->payload -= size;
+            head->len     += size;
             total_len += size;
             return OK;
         } else {

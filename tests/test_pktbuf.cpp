@@ -102,6 +102,7 @@ int main(int argc, char *argv[])
 
     payload1 = p->hlist.locate(p->hlist.head)->payload;
     p->header(-20);
+    if (p->hlist.locate(p->hlist.head)->len != 1480) exit(-1);
     payload2 = p->hlist.locate(p->hlist.head)->payload;
     if (payload2 - payload1 != -20) exit(-1);
 
@@ -117,6 +118,19 @@ int main(int argc, char *argv[])
 
     p->header(20);
     if (p->hlist.count != 2) exit(-1);
+    Pktbuf::free(p);
+
+    //
+    p = Pktbuf::alloc(Pktbuf::FIXEDPOOL, 3000, Pktbuf::NONE);
+    p->header(-20);
+    {
+        uint32_t total = 0;
+        List_foreach(p->hlist.head, temp) {
+            Pktbuf::hunk *h = p->hlist.locate(temp);
+            total += h->len;
+        }
+        if (total != p->total_len) exit(-1);
+    }
     Pktbuf::free(p);
 
     // 10, 测试total_len
